@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 
 import { SmartTableData } from '../../../@core/data/smart-table';
@@ -8,7 +8,7 @@ import { SmartTableData } from '../../../@core/data/smart-table';
   templateUrl: './smart-table.component.html',
   styleUrls: ['./smart-table.component.scss'],
 })
-export class SmartTableComponent {
+export class SmartTableComponent implements OnInit {
 
   settings = {
     add: {
@@ -30,11 +30,11 @@ export class SmartTableComponent {
         title: 'ID',
         type: 'number',
       },
-      firstName: {
+      firstname: {
         title: 'First Name',
         type: 'string',
       },
-      lastName: {
+      lastname: {
         title: 'Last Name',
         type: 'string',
       },
@@ -56,13 +56,27 @@ export class SmartTableComponent {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: SmartTableData) {
-    const data = this.service.getData();
-    this.source.load(data);
+  }
+
+  ngOnInit(): void {
+    this.service.getData().subscribe(data => {
+      this.source.load(data); // 当数据到达时加载到表格中
+    });
   }
 
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
+      this.service.deleteData(event.data.id).subscribe(response => {
+        if (response && response.success) {
+          // 从前端数据源中移除该项
+          this.source.remove(event.data);
+        }
+        event.confirm.resolve();
+      }, error => {
+        // 处理可能出现的错误
+        console.error('Error occurred while deleting:', error);
+        event.confirm.reject();
+      });
     } else {
       event.confirm.reject();
     }
