@@ -51,9 +51,14 @@ export class SmartTableComponent implements OnInit {
         type: 'number',
       },
     },
+    pager: {
+      display: true,
+      perPage: 10, // 默认每页显示10条数据
+    },
   };
 
   source: LocalDataSource = new LocalDataSource();
+  perPageOptions = [10, 20, 50, 100]; // 每页显示条数的下拉选项
 
   constructor(private service: SmartTableData) {
   }
@@ -64,7 +69,7 @@ export class SmartTableComponent implements OnInit {
     });
   }
 
-  onDeleteConfirm(event): void {
+  onDeleteConfirm(event: { data: { id: number; }; confirm: { resolve: () => void; reject: () => void; }; }): void {
     if (window.confirm('Are you sure you want to delete?')) {
       this.service.deleteData(event.data.id).subscribe(response => {
         if (response && response.success) {
@@ -80,5 +85,17 @@ export class SmartTableComponent implements OnInit {
     } else {
       event.confirm.reject();
     }
+  }
+
+
+  onPerPageChange(perPage: number): void {
+    this.settings = {
+      ...this.settings,
+      pager: {
+        ...this.settings.pager,
+        perPage: perPage,
+      },
+    };
+    this.source.setPaging(1, perPage, true);
   }
 }

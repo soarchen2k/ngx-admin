@@ -1,9 +1,23 @@
+<!--这个模板是 Angular 中的一个组件模板，使用了 Nebular UI 库的 nb-card 组件和 ng2-smart-table 表格组件-->
+<!--<nb-card>: 这是 Nebular UI 库的卡片组件。它提供了一个带有标准样式的容器，可以包含标题、内容、按钮等元素。-->
 <nb-card>
+<!--  <nb-card-header>: 这是卡片组件的头部部分。在这里，它包含了文本“Smart Table”，作为卡片的标题。-->
   <nb-card-header>
     Smart Table
+    <select (change)="onPerPageChange($event.target.value)">
+      <option *ngFor="let option of perPageOptions" [value]="option">{{ option }}</option>
+    </select>
   </nb-card-header>
 
+<!--  <nb-card-body>: 这是卡片组件的主体部分。它通常包含卡片的主要内容。-->
   <nb-card-body>
+<!--    <ng2-smart-table>: 这是一个 ng2-smart-table 组件，用于显示智能表格。它是一个 Angular 组件，用于创建和操作表格数据。-->
+<!--    [settings]="settings": 这里使用了 Angular 的属性绑定。它将组件的 settings 属性绑定到当前组件类中的 settings 属性。
+        settings 对象包含了表格的配置信息，如列定义、操作按钮等。-->
+<!--    [source]="source": 同样是属性绑定，将 source 绑定到了类中的 source 属性。
+        source 是一个 LocalDataSource 对象，它为表格提供数据。-->
+<!--    (deleteConfirm)="onDeleteConfirm($event)": 这是一个事件绑定。它监听 ng2-smart-table 的 deleteConfirm 事件，
+        当用户尝试删除表格中的一行时触发。一旦触发，它会调用当前组件类中的 onDeleteConfirm 方法，并将事件对象作为参数传递。-->
     <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
     </ng2-smart-table>
   </nb-card-body>
