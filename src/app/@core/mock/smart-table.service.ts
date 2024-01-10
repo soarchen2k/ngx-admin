@@ -17,7 +17,7 @@ export class SmartTableService extends SmartTableData {
     return this.data;
   }
 
-  private readonly apiUrl = environment.apiUrl + '/api/system/admin/ngx-admin-user/';
+  private readonly apiUrl = environment.apiUrl + '/system/admin/ngx-admin-user/';
   private readonly listApiUrl = this.apiUrl + 'list';
 
   constructor(private http: HttpClient) {
