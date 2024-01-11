@@ -27,4 +27,10 @@ export class SmartTableService extends SmartTableData {
   data = this.http.get<any>(this.listApiUrl).pipe(
     map(response => response.content.list), // Use the map operator here;
   );
+
+  saveData(updatedData: any) {
+    // 此处的 URL 应替换为您的后端 API 端点
+    const url = `${this.apiUrl}save/`;
+    return this.http.post(url, updatedData);
+  }
 }

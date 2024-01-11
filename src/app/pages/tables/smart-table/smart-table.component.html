@@ -18,7 +18,8 @@
         source 是一个 LocalDataSource 对象，它为表格提供数据。-->
 <!--    (deleteConfirm)="onDeleteConfirm($event)": 这是一个事件绑定。它监听 ng2-smart-table 的 deleteConfirm 事件，
         当用户尝试删除表格中的一行时触发。一旦触发，它会调用当前组件类中的 onDeleteConfirm 方法，并将事件对象作为参数传递。-->
-    <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
+    <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)"
+                     (editConfirm)="onEditConfirm($event)" (createConfirm)="onEditConfirm($event)">
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>
